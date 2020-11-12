@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 module.exports = {
     // entry:'./src/index.js',
     // output:{
@@ -14,7 +15,7 @@ module.exports = {
         path: path.join(__dirname, 'dist'),
         filename: '[name].js'
     }, // 多入口
-    mode: 'production',
+    mode: 'development', // 'production',
     module: {
         rules: [{
                 test: /\.js$/, // 匹配js文件
@@ -22,7 +23,7 @@ module.exports = {
             }, {
                 test: /.css$/,
                 use: [
-                    
+
                     'style-loader',
                     'css-loader',
                     'sass-loader'
@@ -31,15 +32,20 @@ module.exports = {
             {
                 test: /.(png|jpg|gif|svg)$/,
                 // use: 'file-loader'
-                use:[
-                    {
-                        loader:'url-loader',
-                        options:{
-                            limit:10240
-                        }
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10240
                     }
-                ]
+                }]
             }
         ]
+    },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(), // 热更新
+    ],
+    devServer: {
+        contentBase: './dist',
+        hot: true
     }
 }

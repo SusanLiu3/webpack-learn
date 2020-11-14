@@ -4,3 +4,10 @@
 - 解决办法
   - npm uninstall webpack-cli
   - npm i webpack-cli webpack-cli@3.3 -S
+- 文件指纹
+  - js :chunkhash (入口文件)
+  - css添加文件指纹(contenthash)：因为默认情况下打包好的css是通过style-loader添加到head中，想要给css添加文件指纹，先通过mini-css-extract-plugin 将css提取出单独的文件
+- 文件压缩
+   - js  内置ugliftjs-webpack-plugin
+   - css optimize-css-assets-webpack-plugin + csscano
+   - html html-webpack-plugin

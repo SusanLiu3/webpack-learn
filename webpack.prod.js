@@ -2,6 +2,9 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const htmlWebpackPlugin = require('html-webpack-plugin')
+const {
+    CleanWebpackPlugin
+} = require('clean-webpack-plugin')
 
 // 生成环境不需要热跟新
 module.exports = {
@@ -32,7 +35,15 @@ module.exports = {
                     MiniCssExtractPlugin.loader,
                     // 'style-loader', // 将样式通过style标签插入到head
                     'css-loader',
-                    'sass-loader'
+                    'sass-loader',
+                    'postcss-loader',
+                    {
+                        loader: 'px2rem-loader',
+                        options: {
+                            remUni: 75, // 1rem 代表的px
+                            remPrecision: 8 ,// 转换成rem 保留的小数位数
+                        }
+                    }
                 ]
             },
             {
@@ -65,10 +76,10 @@ module.exports = {
             minify: true
         }),
         new htmlWebpackPlugin({
-            filename: 'vue.html',
-            template: path.join(__dirname, './src/vue.html'),
-            chunks: ['vue'],
-            inject: true,
+            filename: 'vue.html', // 打包输出文件名
+            template: path.join(__dirname, './src/vue.html'), // 模板
+            chunks: ['vue'], // 需要注入的chunk (js/css)
+            inject: true, // 是否需要将chunk自动注入到html中
             minify: true
         }),
         new htmlWebpackPlugin({
@@ -77,6 +88,7 @@ module.exports = {
             chunks: ['search'],
             inject: true,
             minify: true
-        })
+        }),
+        new CleanWebpackPlugin(),
     ]
 }

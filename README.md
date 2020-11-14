@@ -11,3 +11,6 @@
    - js  内置ugliftjs-webpack-plugin
    - css optimize-css-assets-webpack-plugin + csscano
    - html html-webpack-plugin
+- css 增强
+   - 删除 打包文件
+   - 添加前缀 postcss-loader autoprefixer

@@ -26,6 +26,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "postcss-loader": "^4.0.4",
     "px2rem-loader": "^0.1.9",
+    "raw-loader": "^0.5.1",
     "sass-loader": "^10.0.5",
     "style-loader": "^2.0.0",
     "url-loader": "^4.1.1",
@@ -35,6 +36,7 @@
   "dependencies": {
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vue/babel-preset-jsx": "^1.2.4",
+    "glob": "^7.1.6",
     "html-webpack-plugin": "^4.5.0",
     "install": "^0.13.0",
     "lib-flexible": "^0.3.2",

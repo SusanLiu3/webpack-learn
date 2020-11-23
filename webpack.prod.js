@@ -1,29 +1,11 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const htmlWebpackPlugin = require('html-webpack-plugin')
+
 const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin')
-var glob = require("glob")
-let htmlWebpackList = []
-let entryObj = {}
-let files = glob.sync('./src/*/index.js')
-files.forEach(i => {
-    let fileObj = i.match(/src\/(.*)\/index\.js/)
-    let filename = fileObj[1]
-    entryObj[filename] = i
-    htmlWebpackList.push(
-        new htmlWebpackPlugin({
-            filename: `${filename}.html`,
-            template: path.join(__dirname, `./src/${filename}/index.html`),
-            chunks: [filename],
-            inject: true,
-            minify: true,
-            publicPath:'./dist'
-        })
-    )
-})
+let {entryObj,htmlWebpackList} = require('./setPwa.js')
 // 生成环境不需要热跟新
 module.exports = {
     // entry:'./src/index.js',

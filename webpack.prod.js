@@ -5,7 +5,25 @@ const htmlWebpackPlugin = require('html-webpack-plugin')
 const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin')
-
+var glob = require("glob")
+let htmlWebpackList = []
+let entryObj = {}
+let files = glob.sync('./src/*/index.js')
+files.forEach(i => {
+    let fileObj = i.match(/src\/(.*)\/index\.js/)
+    let filename = fileObj[1]
+    entryObj[filename] = i
+    htmlWebpackList.push(
+        new htmlWebpackPlugin({
+            filename: `${filename}.html`,
+            template: path.join(__dirname, `./src/${filename}/index.html`),
+            chunks: [filename],
+            inject: true,
+            minify: true,
+            publicPath:'./dist'
+        })
+    )
+})
 // 生成环境不需要热跟新
 module.exports = {
     // entry:'./src/index.js',
@@ -13,11 +31,12 @@ module.exports = {
     //     path:path.join(__dirname,'dist'),
     //     filename:'bundle.js'
     // }, //单入口
-    entry: {
-        index: './src/index/index.js',
-        search: './src/search/index.js',
-        vue: './src/vue/index.js'
-    },
+    entry: entryObj,
+    // {
+    //     index: './src/index/index.js',
+    //     search: './src/search/index.js',
+    //     vue: './src/vue/index.js'
+    // },
     output: {
         path: path.join(__dirname, 'dist'),
         filename: '[name]_[hash:8].js' //js:chunkhash// '[name].js'
@@ -41,7 +60,7 @@ module.exports = {
                         loader: 'px2rem-loader',
                         options: {
                             remUni: 75, // 1rem 代表的px
-                            remPrecision: 8 ,// 转换成rem 保留的小数位数
+                            remPrecision: 8, // 转换成rem 保留的小数位数
                         }
                     }
                 ]
@@ -68,27 +87,27 @@ module.exports = {
             assetNameRegExp: /\.css$/,
             cssProcessor: require('cssnano'),
         }),
-        new htmlWebpackPlugin({
-            filename: 'index.html',
-            template: path.join(__dirname, './src/index/index.html'),
-            chunks: ['index'],
-            inject: true,
-            minify: true
-        }),
-        new htmlWebpackPlugin({
-            filename: 'vue.html', // 打包输出文件名
-            template: path.join(__dirname, './src/vue/index.html'), // 模板
-            chunks: ['vue'], // 需要注入的chunk (js/css)
-            inject: true, // 是否需要将chunk自动注入到html中
-            minify: true
-        }),
-        new htmlWebpackPlugin({
-            filename: 'search.html',
-            template: path.join(__dirname, './src/search/index.html'),
-            chunks: ['search'],
-            inject: true,
-            minify: true
-        }),
+        // new htmlWebpackPlugin({
+        //     filename: 'index.html',
+        //     template: path.join(__dirname, './src/index/index.html'),
+        //     chunks: ['index'],
+        //     inject: true,
+        //     minify: true
+        // }),
+        // new htmlWebpackPlugin({
+        //     filename: 'vue.html', // 打包输出文件名
+        //     template: path.join(__dirname, './src/vue/index.html'), // 模板
+        //     chunks: ['vue'], // 需要注入的chunk (js/css)
+        //     inject: true, // 是否需要将chunk自动注入到html中
+        //     minify: true
+        // }),
+        // new htmlWebpackPlugin({
+        //     filename: 'search.html',
+        //     template: path.join(__dirname, './src/search/index.html'),
+        //     chunks: ['search'],
+        //     inject: true,
+        //     minify: true
+        // }),
         new CleanWebpackPlugin(),
-    ]
+    ].concat(htmlWebpackList)
 }

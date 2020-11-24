@@ -74,5 +74,6 @@ module.exports = {
     devServer: {
         contentBase: './dist',
         hot: true
-    }
+    },
+    devtool: 'cheap-source-map'
 }

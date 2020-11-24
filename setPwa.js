@@ -4,6 +4,7 @@ const htmlWebpackPlugin = require('html-webpack-plugin')
 let entryObj = {}
 let htmlWebpackList=[]
 let files = glob.sync('./src/*/index.js')
+
 files.forEach(i => {
     let fileObj = i.match(/src\/(.*)\/index\.js/)
     let filename = fileObj[1]

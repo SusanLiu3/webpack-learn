@@ -14,3 +14,6 @@
 - css 增强
    - 删除 打包文件
    - 添加前缀 postcss-loader autoprefixer
+- devtool
+   - eval :打包后的代码包裹在eval 中，并且用sourceURL 连接到源码文件中 不好debugger
+   - cheap-source-map : 源代码 没有包裹在eval中，可以调试

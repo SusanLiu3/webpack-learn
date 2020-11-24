@@ -1,11 +1,14 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin')
-let {entryObj,htmlWebpackList} = require('./setPwa.js')
+let {
+    entryObj,
+    htmlWebpackList
+} = require('./setPwa.js')
 // 生成环境不需要热跟新
 module.exports = {
     // entry:'./src/index.js',
@@ -69,27 +72,29 @@ module.exports = {
             assetNameRegExp: /\.css$/,
             cssProcessor: require('cssnano'),
         }),
-        // new htmlWebpackPlugin({
-        //     filename: 'index.html',
-        //     template: path.join(__dirname, './src/index/index.html'),
-        //     chunks: ['index'],
-        //     inject: true,
-        //     minify: true
-        // }),
-        // new htmlWebpackPlugin({
-        //     filename: 'vue.html', // 打包输出文件名
-        //     template: path.join(__dirname, './src/vue/index.html'), // 模板
-        //     chunks: ['vue'], // 需要注入的chunk (js/css)
-        //     inject: true, // 是否需要将chunk自动注入到html中
-        //     minify: true
-        // }),
-        // new htmlWebpackPlugin({
-        //     filename: 'search.html',
-        //     template: path.join(__dirname, './src/search/index.html'),
-        //     chunks: ['search'],
-        //     inject: true,
-        //     minify: true
-        // }),
         new CleanWebpackPlugin(),
-    ].concat(htmlWebpackList)
+        // 通过cdn引入 不打入bundle中 分离基础库
+        new HtmlWebpackExternalsPlugin({
+            externals: [{
+                module: 'vue',
+                entry: 'https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.runtime.min.js',
+                global: 'Vue',
+            }, ],
+        })
+    ].concat(htmlWebpackList),
+    optimization: {
+        splitChunks: {
+            minSize:0,
+            cacheGroups: {
+                commons: {
+                    name:'vendors',
+                    chunks:'all',
+                    minChunks:2
+                    // test: /vue/,
+                    // name: "vendors",
+                    // chunks: "all"
+                }
+            }
+        }
+    }
 }

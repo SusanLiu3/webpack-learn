@@ -13,7 +13,7 @@ files.forEach(i => {
         new htmlWebpackPlugin({
             filename: `${filename}.html`,
             template: path.join(__dirname, `src/${filename}/index.html`),
-            chunks: [filename],
+            chunks: [filename,'vendors'], // 通过splitChunksPlugin 提取公共基础库,如 Vue ，需要加入到chunks
             inject: true,
             minify: true,
         })

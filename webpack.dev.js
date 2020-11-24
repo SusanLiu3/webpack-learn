@@ -1,6 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
 const htmlWebpackPlugin = require('html-webpack-plugin')
+const {
+    CleanWebpackPlugin
+} = require('clean-webpack-plugin')
 let {
     entryObj,
     htmlWebpackList
@@ -49,6 +52,7 @@ module.exports = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(), // 热更新
+        new CleanWebpackPlugin(),
         //  new htmlWebpackPlugin({
         //          filename: 'index.html',
         //          template: path.join(__dirname, './src/index/index.html'),
@@ -75,5 +79,5 @@ module.exports = {
         contentBase: './dist',
         hot: true
     },
-    devtool: 'cheap-source-map'
+    // devtool: 'cheap-source-map'
 }

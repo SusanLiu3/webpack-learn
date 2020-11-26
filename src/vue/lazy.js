@@ -1,0 +1,1 @@
+export let str='文件懒加载'

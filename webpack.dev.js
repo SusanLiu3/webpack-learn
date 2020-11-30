@@ -27,27 +27,27 @@ module.exports = {
     mode: 'development', // 'production',
     module: {
         rules: [{
-                test: /\.js$/, // 匹配js文件
-                use: 'babel-loader' // 使用babel-loader 进行解析
-            }, {
-                test: /.css$/,
-                use: [
+            test: /\.js$/, // 匹配js文件
+            use: 'babel-loader' // 使用babel-loader 进行解析
+        }, {
+            test: /.css$/,
+            use: [
 
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader'
-                ]
-            },
-            {
-                test: /.(png|jpg|gif|svg)$/,
-                // use: 'file-loader'
-                use: [{
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10240
-                    }
-                }]
-            }
+                'style-loader',
+                'css-loader',
+                'sass-loader'
+            ]
+        },
+        {
+            test: /.(png|jpg|gif|svg)$/,
+            // use: 'file-loader'
+            use: [{
+                loader: 'url-loader',
+                options: {
+                    limit: 10240
+                }
+            }]
+        }
         ]
     },
     plugins: [

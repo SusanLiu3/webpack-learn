@@ -1,6 +1,7 @@
 import {
-    helloWebpack
-} from './helloWebpack.js'
-import testSplit from '../../common/index.js'
-testSplit()
-document.write(helloWebpack())
+    helloWebpack,
+} from './helloWebpack';
+import testSplit from '../../common/index';
+
+testSplit();
+document.write(helloWebpack());

@@ -1,3 +1,3 @@
-export default function (){
-    console.log('splitChunksPlugin 使用')
+export default function testSplit() {
+    console.log('splitChunksPlugin 使用');
 }

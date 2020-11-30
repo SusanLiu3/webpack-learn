@@ -1,3 +1,5 @@
-export function helloWebpack(){
-    return 'Hello Webpack'
+export function helloWebpack() {
+    return 'Hello Webpack';
 }
+
+export default 'test';

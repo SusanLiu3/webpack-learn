@@ -1,1 +1,1 @@
-export let str='文件懒加载'
+export default '文件懒加载';

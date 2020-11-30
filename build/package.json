@@ -1,0 +1,21 @@
+{
+  "name": "large-two-numbers-add",
+  "version": "1.0.1",
+  "description": "webpack 打包js文件",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"webpack",
+    "publish": "webpack"
+  },
+  "keywords": [
+    "webpack",
+    "build",
+    "js"
+  ],
+  "author": "liuss93",
+  "devDependencies": {
+    "terser-webpack-plugin": "^5.0.3",
+    "webpack": "^5.9.0"
+  }
+}

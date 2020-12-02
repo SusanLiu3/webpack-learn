@@ -22,5 +22,7 @@
    - babelrc 文件 配置 plugins:["@babel/plugin-syntax-dynamic-import"]
 - 打包ssr 
    - vue + webpack + ssr
-   - vue-server-renderer  方法 createRenderer() 加载模板
+   - vue-server-renderer  方法 createRenderer() 加载模板 
+   - render.renderToString 将页面渲染 返回浏览器
+   -   <!--vue-ssr-outlet--> 占位符
   

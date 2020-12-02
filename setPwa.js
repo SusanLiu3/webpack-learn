@@ -20,6 +20,6 @@ files.forEach(i => {
     )
 })
 module.exports = {
-   entryObj,
-   htmlWebpackList
+    entryObj,
+    htmlWebpackList
 }

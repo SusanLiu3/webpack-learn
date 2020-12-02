@@ -7,7 +7,8 @@
     "build": "webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --config webpack.dev.js --open",
-    "watch": "webpack --config webpack.dev.js --watch"
+    "watch": "webpack --config webpack.dev.js --watch",
+    "build:ssr": "webpack --config webpack.ssr.js"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,7 @@
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
+    "express": "^4.17.1",
     "file-loader": "^6.2.0",
     "html-webpack-externals-plugin": "^3.8.0",
     "large-two-numbers-add": "^1.0.0",
@@ -46,6 +48,7 @@
   "dependencies": {
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vue/babel-preset-jsx": "^1.2.4",
+    "art-template": "^4.13.2",
     "eslint": "^7.14.0",
     "eslint-plugin-markdown": "^1.0.2",
     "glob": "^7.1.6",
@@ -54,6 +57,7 @@
     "lib-flexible": "^0.3.2",
     "npm": "^7.0.10",
     "vue": "^2.6.12",
+    "vue-server-renderer": "^2.6.12",
     "webpack-cli": "^3.3.12"
   }
 }

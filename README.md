@@ -20,4 +20,7 @@
 - import 懒加载 文件，用到的时候才去加载（babel转换）
    - npm install @babel/plugin-syntax-dynamic-import --save-dev
    - babelrc 文件 配置 plugins:["@babel/plugin-syntax-dynamic-import"]
+- 打包ssr 
+   - vue + webpack + ssr
+   - vue-server-renderer  方法 createRenderer() 加载模板
   

@@ -1,6 +1,15 @@
-let assert = require('assert');
+let assert = require('assert'); // 
 const { expect } = require('chai');
 let add = require('../add');
+/**
+ *  describe 测试套件 一组相关的测试 函数
+ *  it 单独的测试，测试的最小单位 函数
+ *   before after beforeEach afterEach 钩子函数
+ *    在测试开始前后执行
+ *   chai（需安装） 断言库
+ *   assert 断言风格库（mocha自带的） 
+ *   expect 断言库 更接近自然语言
+ */
 describe('add js test', () => {
     describe('func add test', () => {
         before(() => {
@@ -15,6 +24,7 @@ describe('add js test', () => {
         afterEach(() => {
             console.log('single assert after');
         });
+
         it('sum should return 0 ', () => {
             // assert 断言
             assert.strictEqual(add(), 0);
@@ -26,8 +36,8 @@ describe('add js test', () => {
 });
 
 describe('Array test', () => {
-    describe('#indexOf test', function(){
-        // mocha中默认超时时间是2秒 可以通过设置
+    describe('#indexOf test', function () {
+    // mocha中默认超时时间是2秒 可以通过设置
         this.timeout(5000); // 设置成5秒
         this.timeout(0); // 关闭超时限制
         it('should return -1 when value not exist', () => {
@@ -57,6 +67,6 @@ describe('skip test', () => {
     });
 });
 
-describe('#test随便写点',()=>{
-    it('随便噢',()=>{})
-})
+describe('#test随便写点', () => {
+    it('随便噢', () => {});
+});

@@ -4,7 +4,8 @@
   "description": "mocha test ",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "watch": "mocha --watch"
   },
   "keywords": [
     "mocha"

@@ -29,5 +29,9 @@
 - 扩展 单元测试 mocha + chai 
   - npm i mocha -D
   - mocha file1 file2
+  - /node_modules/bin/mocha file1 file2
+  - mocha
+  - mocha --watch 监听测试文件变化
+  - [图片]<img src="./mocha-test/img/watch.png" alt="监听测试文件变化"   />
   - [Mocha和单元测试](https://segmentfault.com/a/1190000020346118)
   - [译 快速，完整的 Mocha 测试指南](https://learnku.com/articles/35165#1-%E4%BD%BF%E7%94%A8%E5%9B%9E%E8%B0%83%E6%96%B9%E6%B3%95)

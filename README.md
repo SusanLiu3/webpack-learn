@@ -50,9 +50,9 @@
   npm install --save-dev speed-measure-webpack-plugin
   const smp = new SpeedMeasurePlugin();
 
-const webpackConfig = smp.wrap({
-  plugins: [new MyPlugin(), new MyOtherPlugin()],
-});
+   const webpackConfig = smp.wrap({
+    plugins: [new MyPlugin(), new MyOtherPlugin()],
+  });
   ```
 - webpack 构建体积分析
   1. webpack-bundle-analyzer 可视化包分析大小 可以分析第三方模块或者自己编写的业务模块的大小，在8888端口展示大小 
@@ -60,9 +60,9 @@ const webpackConfig = smp.wrap({
     npm install --save-dev webpack-bundle-analyzer
     const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-module.exports = {
-  plugins: [
-    new BundleAnalyzerPlugin()
-  ]
-}
+    module.exports = {
+       plugins: [
+          new BundleAnalyzerPlugin()
+       ]
+    }
   ```

@@ -2,6 +2,11 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
+const SpeedMeasureWebpackPlugin= require('speed-measure-webpack-plugin')
+const smp=new SpeedMeasureWebpackPlugin()
+const {
+    BundleAnalyzerPlugin
+} = require('webpack-bundle-analyzer')
 const {
     CleanWebpackPlugin,
 } = require('clean-webpack-plugin');
@@ -10,7 +15,7 @@ const {
     htmlWebpackList,
 } = require('./setPwa.js');
 // 生成环境不需要热跟新
-module.exports = {
+module.exports = smp.wrap({
     // entry:'./src/index.js',
     // output:{
     //     path:path.join(__dirname,'dist'),
@@ -81,6 +86,7 @@ module.exports = {
                 global: 'Vue',
             }],
         }),
+        new BundleAnalyzerPlugin(),
     ].concat(htmlWebpackList),
     optimization: {
         splitChunks: {
@@ -97,4 +103,4 @@ module.exports = {
             },
         },
     },
-};
+});

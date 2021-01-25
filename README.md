@@ -35,3 +35,34 @@
   - [图片]<img src="./mocha-test/img/watch.png" alt="监听测试文件变化"   />
   - [Mocha和单元测试](https://segmentfault.com/a/1190000020346118)
   - [译 快速，完整的 Mocha 测试指南](https://learnku.com/articles/35165#1-%E4%BD%BF%E7%94%A8%E5%9B%9E%E8%B0%83%E6%96%B9%E6%B3%95)
+
+- 编写loader 
+
+- webpack构建速度分析
+  1. stats （webpack 内置） 颗粒度粗，看不出问题所在
+  ```
+   package.json
+      build:stats:webpack --config webpack.prod.js --json>stats.json
+  ```
+  2. speed-measure-webpack-plugin 可以看出每个loader和插件的耗时时间 
+     ![打包输出](/imgs/smp.png)
+  ```
+  npm install --save-dev speed-measure-webpack-plugin
+  const smp = new SpeedMeasurePlugin();
+
+const webpackConfig = smp.wrap({
+  plugins: [new MyPlugin(), new MyOtherPlugin()],
+});
+  ```
+- webpack 构建体积分析
+  1. webpack-bundle-analyzer 可视化包分析大小 可以分析第三方模块或者自己编写的业务模块的大小，在8888端口展示大小 
+  ```
+    npm install --save-dev webpack-bundle-analyzer
+    const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+module.exports = {
+  plugins: [
+    new BundleAnalyzerPlugin()
+  ]
+}
+  ```

@@ -66,3 +66,29 @@
        ]
     }
   ```
+- 构建速度优化
+  1. 使用高版本的webpack 和node.js
+      - 可以直接将loader传给ast，减少了解析
+      - 字符串代替正则
+      - webpack4及以上版本使用md4 hash算法
+      - V8 带来的优化(map和set代替object，contain 代替indexof ，forof 代替for循环等)
+  2. 多进程多实例构建：
+      - happypack ： 每次解析模块，会将模块及其依赖分配个worker;本例使用happypack后，时间从4587 到2458提升 [链接](https://github.com/amireh/happypack)  
+      ```
+            rules: [
+            {
+              test: /.js$/,
+              // 1) replace your original list of loaders with "happypack/loader":
+              // loaders: [ 'babel-loader?presets[]=es2015' ],
+             use: 'happypack/loader',
+             include: [ /* ... */ ],
+             exclude: [ /* ... */ ]
+            }
+           ]
+           // 2) create the plugin:
+                  new HappyPack({
+                      // 3) re-add the loaders you replaced above in #1:
+                  loaders: [ 'babel-loader?presets[]=es2015' ]
+               })
+      ```
+      - thread-loader:原理和happypack类似,[链接](https://github.com/webpack-contrib/thread-loader)

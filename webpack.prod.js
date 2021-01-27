@@ -2,8 +2,9 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
-const SpeedMeasureWebpackPlugin= require('speed-measure-webpack-plugin')
-const smp=new SpeedMeasureWebpackPlugin()
+const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
+const HappyPack = require('happypack')
+const smp = new SpeedMeasureWebpackPlugin()
 const {
     BundleAnalyzerPlugin
 } = require('webpack-bundle-analyzer')
@@ -35,7 +36,13 @@ module.exports = smp.wrap({
     module: {
         rules: [{
             test: /\.js$/, // 匹配js文件
-            use: ['babel-loader', 'eslint-loader'], // 使用babel-loader 进行解析
+            use: [
+                {
+                    loader: 'thread-loader',// 'happypack/loader'
+                }, 
+                'babel-loader',
+                'eslint-loader']
+            // ['babel-loader', 'eslint-loader'], // 使用babel-loader 进行解析
         }, {
             test: /.css$/,
             use: [
@@ -87,6 +94,10 @@ module.exports = smp.wrap({
             }],
         }),
         new BundleAnalyzerPlugin(),
+        // new HappyPack({
+        //     // 3) re-add the loaders you replaced above in #1:
+        //     loaders: ['babel-loader']
+        // })
     ].concat(htmlWebpackList),
     optimization: {
         splitChunks: {

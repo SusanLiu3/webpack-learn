@@ -1,1 +1,0 @@
-(()=>{"use strict";console.log("splitChunksPlugin 使用"),document.write("Hello Webpack")})();

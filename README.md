@@ -36,7 +36,6 @@
   - [Mocha和单元测试](https://segmentfault.com/a/1190000020346118)
   - [译 快速，完整的 Mocha 测试指南](https://learnku.com/articles/35165#1-%E4%BD%BF%E7%94%A8%E5%9B%9E%E8%B0%83%E6%96%B9%E6%B3%95)
 
-- 编写loader 
 
 - webpack构建速度分析
   1. stats （webpack 内置） 颗粒度粗，看不出问题所在
@@ -92,7 +91,19 @@
                })
       ```
       - thread-loader:原理和happypack类似,[链接](https://github.com/webpack-contrib/thread-loader)
-   3. 多进程多实例压缩
+      ```
+       [{
+            test: /\.js$/, // 匹配js文件
+            use: [
+                {
+                    loader: 'thread-loader',// 'happypack/loader'
+                }, 
+                'babel-loader?cacheDirectory=true',
+                'eslint-loader']
+            // ['babel-loader', 'eslint-loader'], // 使用babel-loader 进行解析
+        }]
+      ```
+  3. 多进程多实例压缩
       - uglifyjs-webpack-plugin
       - terser-webpack-plugin 可以压缩ES6代码 
           这时安装的压缩版本是5.1，和webpack不兼容，会报错Cannot read property 'JavascriptModulesPlugin' of undefined，降低terser-webpack-plugin 即可
@@ -107,7 +118,39 @@
             },
               
         ```
-   4. 分包：包括基础包(vue ,vue-cli等) 和业务包，一般基础包分离较多 [文档](https://webpack.docschina.org/plugins/dll-plugin/#root)
+  4. 分包：包括基础包(vue ,vue-cli等) 和业务包，一般基础包分离较多 
+        [文档](https://    webpack.docschina.org/plugins/dll-plugin/#root)
       - 动态链接库: DllPlugin 和DllReferencePlugin 联合使用实现分包，大幅度提升构建速度
       - DllPlugin 可以将基础包或者业务包打包成一个单独的文件，并且会创建一个mainfest.json的文件，这个文件用于让DllReferencePlugin映射到相应的依赖上；
       - DllReferencePlugin 在原项目打包文件中引用json文件
+  5. 缓存：提升二次构建速度,设置缓存，打包后会在node_modules 文件夹下面出现.cache文件夹
+      - babel-loader :?cacheDirectory=true 
+      ```
+      rules: [{
+            test: /\.js$/, // 匹配js文件
+            use: [
+                {
+                    loader: 'thread-loader',// 'happypack/loader'
+                }, 
+                'babel-loader?cacheDirectory=true',
+                'eslint-loader']
+            // ['babel-loader', 'eslint-loader'], // 使用babel-loader 进行解析
+        }]
+      ```
+      - terser-webpack-plugin
+        ```
+        minimizer:[
+            new TerserPlugin({
+                parallel: true,
+                cache:true
+            })
+        ],
+        ```
+      - cache-loader 或者[hard-source-webpack-plugin](https://github.com/mzgoddard/hard-source-webpack-plugin) 应该版本问题报错
+  6. 缩小构建目标的范围：减少模块搜搜范围
+     - resolve.modules 减少模块搜索层级
+     - resolve.mainFields：定义查找package.json下面某个属性(如main 或者index)的文件
+     - resolve.extensions：查找后缀配置,webpack 只能读取.js,.json 
+     - resolve.alias:
+- 构建体积优化
+   1. tree-shaking:①个模块有很多方法，只要其中一个方法使用到了，那么整个文件都会打包到bundle中，    tree-shaking就是将用到的方法打包到bundle，没有用到的使用uglifyjs擦除调

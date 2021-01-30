@@ -23,8 +23,9 @@ new Vue({
             console.log('kkk');
             import('./lazy.js').then((i) => {
                 console.log(i);
-                this.msg = i.default;
+                this.msg = i.default.msg;
             });
         },
+        
     },
 }).$mount('#app');

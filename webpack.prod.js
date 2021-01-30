@@ -7,6 +7,7 @@ const HappyPack = require('happypack')
 const TerserPlugin=require('terser-webpack-plugin')
 const smp = new SpeedMeasureWebpackPlugin()
 const webpack =require('webpack')
+var HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const {
     BundleAnalyzerPlugin
 } = require('webpack-bundle-analyzer')
@@ -42,7 +43,7 @@ module.exports = smp.wrap({
                 {
                     loader: 'thread-loader',// 'happypack/loader'
                 }, 
-                'babel-loader',
+                'babel-loader?cacheDirectory=true',
                 'eslint-loader']
             // ['babel-loader', 'eslint-loader'], // 使用babel-loader 进行解析
         }, {
@@ -95,10 +96,11 @@ module.exports = smp.wrap({
         //         global: 'Vue',
         //     }],
         // }),
-        new BundleAnalyzerPlugin(),
+        // new BundleAnalyzerPlugin(), // 打包后的文件大小
         new webpack.DllReferencePlugin({
-            manifest:path.join(__dirname,'library/mainfest.json')
-        })
+            manifest:require('./library/mainfest.json')
+        }),
+        // new HardSourceWebpackPlugin()
         
         // new HappyPack({
         //     // 3) re-add the loaders you replaced above in #1:
@@ -109,7 +111,8 @@ module.exports = smp.wrap({
         minimize:true,
         minimizer:[
             new TerserPlugin({
-                parallel: true
+                parallel: true,
+                cache:true
             })
         ],
         splitChunks: {
@@ -126,4 +129,11 @@ module.exports = smp.wrap({
             },
         },
     },
+    resolve:{
+        alias:{
+            'vue':path.join(__dirname,'node_modules/vue/dist/vue.runtime.esm.js')
+        },
+        extensions:['.js'],
+        modules:[path.join(__dirname,'node_modules')]
+    }
 });

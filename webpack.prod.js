@@ -4,7 +4,9 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
 const HappyPack = require('happypack')
+const TerserPlugin=require('terser-webpack-plugin')
 const smp = new SpeedMeasureWebpackPlugin()
+const webpack =require('webpack')
 const {
     BundleAnalyzerPlugin
 } = require('webpack-bundle-analyzer')
@@ -86,20 +88,30 @@ module.exports = smp.wrap({
         }),
         new CleanWebpackPlugin(),
         // 通过cdn引入 不打入bundle中 分离基础库
-        new HtmlWebpackExternalsPlugin({
-            externals: [{
-                module: 'vue',
-                entry: 'https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.runtime.min.js',
-                global: 'Vue',
-            }],
-        }),
+        // new HtmlWebpackExternalsPlugin({
+        //     externals: [{
+        //         module: 'vue',
+        //         entry: 'https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.runtime.min.js',
+        //         global: 'Vue',
+        //     }],
+        // }),
         new BundleAnalyzerPlugin(),
+        new webpack.DllReferencePlugin({
+            manifest:path.join(__dirname,'library/mainfest.json')
+        })
+        
         // new HappyPack({
         //     // 3) re-add the loaders you replaced above in #1:
         //     loaders: ['babel-loader']
         // })
     ].concat(htmlWebpackList),
     optimization: {
+        minimize:true,
+        minimizer:[
+            new TerserPlugin({
+                parallel: true
+            })
+        ],
         splitChunks: {
             minSize: 0,
             cacheGroups: {

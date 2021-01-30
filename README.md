@@ -92,3 +92,22 @@
                })
       ```
       - thread-loader:原理和happypack类似,[链接](https://github.com/webpack-contrib/thread-loader)
+   3. 多进程多实例压缩
+      - uglifyjs-webpack-plugin
+      - terser-webpack-plugin 可以压缩ES6代码 
+          这时安装的压缩版本是5.1，和webpack不兼容，会报错Cannot read property 'JavascriptModulesPlugin' of undefined，降低terser-webpack-plugin 即可
+        ```
+           optimization: {
+              minimize: true,
+              minimizer: [
+                new TerserPlugin({
+                  parallel: true, // 开启多线程 也可以是某个数字
+                }),
+              ],
+            },
+              
+        ```
+   4. 分包：包括基础包(vue ,vue-cli等) 和业务包，一般基础包分离较多 [文档](https://webpack.docschina.org/plugins/dll-plugin/#root)
+      - 动态链接库: DllPlugin 和DllReferencePlugin 联合使用实现分包，大幅度提升构建速度
+      - DllPlugin 可以将基础包或者业务包打包成一个单独的文件，并且会创建一个mainfest.json的文件，这个文件用于让DllReferencePlugin映射到相应的依赖上；
+      - DllReferencePlugin 在原项目打包文件中引用json文件

@@ -154,3 +154,10 @@
      - resolve.alias:
 - 构建体积优化
    1. tree-shaking:①个模块有很多方法，只要其中一个方法使用到了，那么整个文件都会打包到bundle中，    tree-shaking就是将用到的方法打包到bundle，没有用到的使用uglifyjs擦除调
+        - 针对js webpack4 以上默认就使用treeshaking ;
+        - 而针对删除无用的css ,有以下两种方式：
+          - purifyCss:purgecss-webpack-plugin 搭配mini-css-extract-plugin 
+          - uncss :通过jsDom加载，使用postcss解析代码，并且使用document.querySelector()识别不存在的css选择器；
+   2. 图片压缩 :[image-webpack-loader](https://www.npmjs.com/package/image-webpack-loader)
+      - [安装报错解决办法] (https://www.cnblogs.com/ccti7/p/13956678.html)
+   3. 动态polyfill:polyfill-service

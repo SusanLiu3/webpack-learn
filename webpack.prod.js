@@ -8,6 +8,12 @@ const TerserPlugin=require('terser-webpack-plugin')
 const smp = new SpeedMeasureWebpackPlugin()
 const webpack =require('webpack')
 var HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+
+const glob = require('glob')
+const PurgeCSSPlugin = require('purgecss-webpack-plugin')
+let PATHS={
+    src:path.join(__dirname,'src')
+}
 const {
     BundleAnalyzerPlugin
 } = require('webpack-bundle-analyzer')
@@ -70,12 +76,35 @@ module.exports = smp.wrap({
             // use: 'file-loader'
             use: [{
                 loader: 'file-loader', // 'url-loader',
-
                 options: {
                     name: '[name]_[hash:8].[ext]',
                     limit: 10240,
                 },
-            }],
+            },
+            // {
+            //     loader: 'image-webpack-loader',
+            //     options: {
+            //         mozjpeg: {
+            //             progressive: true,
+            //         },
+            //         // optipng.enabled: false will disable optipng
+            //         optipng: {
+            //             enabled: false,
+            //         },
+            //         pngquant: {
+            //             quality: [0.65, 0.90],
+            //             speed: 4
+            //         },
+            //         gifsicle: {
+            //             interlaced: false,
+            //         },
+            //         // the webp option will enable WEBP
+            //         webp: {
+            //             quality: 75
+            //         }
+            //     }
+            // }, 
+            ],
         },
         ],
     },
@@ -106,6 +135,11 @@ module.exports = smp.wrap({
         //     // 3) re-add the loaders you replaced above in #1:
         //     loaders: ['babel-loader']
         // })
+        new PurgeCSSPlugin({
+            paths: glob.sync(`${PATHS.src}/**/*/*`, {
+                nodir: true
+            }),
+        }),
     ].concat(htmlWebpackList),
     optimization: {
         minimize:true,

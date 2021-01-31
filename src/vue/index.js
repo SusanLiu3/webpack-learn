@@ -22,7 +22,6 @@ new Vue({
         clkProcess() {
             console.log('kkk');
             import('./lazy.js').then((i) => {
-                console.log(i);
                 this.msg = i.default.msg;
             });
         },

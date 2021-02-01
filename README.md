@@ -161,3 +161,9 @@
    2. 图片压缩 :[image-webpack-loader](https://www.npmjs.com/package/image-webpack-loader)
       - [安装报错解决办法] (https://www.cnblogs.com/ccti7/p/13956678.html)
    3. 动态polyfill:polyfill-service
+- webpack 源码分析
+  1. 启动流程分析
+     1. 命令行:
+         - npm run dev(开发环境) / npm run build (生成环境)或者 webpack entry.js,本质上是查找webpack，先从node_modules/.bin目录下查找是否存在webpack.sh/webpack.cmd，如果存在，则执行，反之报错；从node_modules/webpack/package.json 中bin字段的值可以知道实际上执行的是./node_modules/webpack/.bin/webpack.js；
+         - 局部安装webpack，如果想要在node_modules/.bin目录下有命令，则必须指定package.json文件中的bin字段
+     

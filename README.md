@@ -167,4 +167,38 @@
          - npm run dev(开发环境) / npm run build (生成环境)或者 webpack entry.js,本质上是查找webpack，先从node_modules/.bin目录下查找是否存在webpack.sh/webpack.cmd，如果存在，则执行，反之报错；从node_modules/webpack/package.json 中bin字段的值可以知道实际上执行的是./node_modules/webpack/.bin/webpack.js；
          - 局部安装webpack，如果想要在node_modules/.bin目录下有命令，则必须指定package.json文件中的bin字段
      2. webpack.js :这个文件主要是为了找webpack-cli/webpack-command.js 并且执行
+  2. webpack-cli:对配置项和命令行进行分析并且转成成option；根据配置实例化webpack，并完成编译和构建
+     1. 引入yargs，对命令行进行定制：
+         - NON_COMPILATION_CMD 分析出不需要编译的命令，如果输入的命令在NON_COMPILATION_ARGS中存在，则不需要编译
+     2. 对命令行参数进行分析
+         - 对命令行参数进行分组(config/config-arg.js)，加上默认的option 共9大组
+         - 将输入的命令行转换成webpack识别的配置项
+         - 引入webpack，并将配置项传入webpack，返回compiler对象
+  3. Tapable:钩子函数的发布订阅，控制着webpack插件系统，webpack可以看成事件流的编程范例，一系列插件运行：
+     1. 上面的compiler对象继承自Tapable;
+     2. Tapable提供了很多钩子（同步和异步），为插件提供挂载：
+        |钩子|说明|
+        | :----: | :----:|
+        |SyncHook|同步钩子|
+        |SyncBailHook|同步熔断钩子|
+        |SyncWaterfallHook|同步流水钩子|
+        |SyncLoopHook|同步循环钩子|
+        |AsyncParallelHook|异步并发钩子|
+        |AsyncParallelBailHook|异步并发熔断钩子|
+        |AsyncSeriesHook|异步串行钩子|
+        |AsyncSeriesBailHook|异步串行熔断钩子|
+        |AsyncSeriesWaterfallHook|异步串行流水钩子|
+     3. 钩子的绑定和执行
+        |钩子|说明|
+        | :----: | :----:|
+        |同步|异步|
+        |绑定:tapAsync/tapPromise/tap|绑定:tap|
+        |执行:callAsync/promise|call|
+     4. 钩子使用示例
+         ```
+           const hook1 = new SyncHook(["arg1", "arg2", "arg3"]);
+            //绑定事件到webapck事件流
+            hook1.tap('hook1', (arg1, arg2, arg3) => console.log(arg1, arg2, arg3)) //1,2,3
+            //执行绑定的事件 hook1.call(1,2,3)
+         ```
      

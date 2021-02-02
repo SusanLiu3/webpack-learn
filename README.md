@@ -119,7 +119,7 @@
               
         ```
   4. 分包：包括基础包(vue ,vue-cli等) 和业务包，一般基础包分离较多 
-        [文档](https://    webpack.docschina.org/plugins/dll-plugin/#root)
+        [文档](https://webpack.docschina.org/plugins/dll-plugin/#root)
       - 动态链接库: DllPlugin 和DllReferencePlugin 联合使用实现分包，大幅度提升构建速度
       - DllPlugin 可以将基础包或者业务包打包成一个单独的文件，并且会创建一个mainfest.json的文件，这个文件用于让DllReferencePlugin映射到相应的依赖上；
       - DllReferencePlugin 在原项目打包文件中引用json文件
@@ -146,12 +146,12 @@
             })
         ],
         ```
-      - cache-loader 或者[hard-source-webpack-plugin](https://github.com/mzgoddard/hard-source-webpack-plugin) 应该版本问题报错
+      - cache-loader 或者[hard-source-webpack-plugin](https://github.com/mzgoddard/hard-source-webpack-plugin) 和 speed-measure-webpack-plugin 插件不兼容 
   6. 缩小构建目标的范围：减少模块搜搜范围
-     - resolve.modules 减少模块搜索层级
+     - resolve.modules:设置解析模块时搜索的目录，(绝对路径和相对路径都可以，但是有点区别) 默认是node_modules,使用绝对路径只在指定目录搜索；而相对路径则可以在父目录 祖父目录等搜索;
      - resolve.mainFields：定义查找package.json下面某个属性(如main 或者index)的文件
-     - resolve.extensions：查找后缀配置,webpack 只能读取.js,.json 
-     - resolve.alias:
+     - resolve.extensions：在导入文件没带后缀时，webpack会自动尝试带上后缀去询问文件是否存在，列表越长而正确的后缀越往后，需要的尝试次数越多，所以①列表尽可能小②使用频次越高的后缀越靠前③导入文件尽可能带上后缀
+     - resolve.alias:通过别名将原导入路径映射，可以直接指定引用的第三方库的入口文件
 - 构建体积优化
    1. tree-shaking:①个模块有很多方法，只要其中一个方法使用到了，那么整个文件都会打包到bundle中，    tree-shaking就是将用到的方法打包到bundle，没有用到的使用uglifyjs擦除调
         - 针对js webpack4 以上默认就使用treeshaking ;

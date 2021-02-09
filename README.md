@@ -206,4 +206,38 @@
   2. 本地开发loader，可以借助[loader-runner](https://github.com/webpack/loader-runner) 进行调试，允许在不安装webpack 的情况下执行loader
      - loader-runner 作为webpack 的依赖，webpack 是使用它执行loader；
      - 允许loader的开发和调试
+       ```
+         const path = require('path');
+         const fs = require('fs');
+         const runLoaders=require('loader-runner')
+         
+         runLoaders.runLoaders(
+             {
+                 resource: path.join(__dirname, 'raw-loader-text.txt'), // 解析资源的路径（绝对路径）
+                 loaders: [{
+                     loader:path.resolve('./loader-runner/raw-loader.js'),
+                     options:{
+                         name:'test'
+                     }
+                 }], // 数组，可以传递多个loader
+                 context: { minimize: true },
+                 readResource: fs.readFile.bind(fs),
+             },
+             function (err, result) {
+                 return err ? console.log(err) : console.log(result);
+             }
+         );
+       ```
+  3. loader 参数获取 loader-utils 中 getOptions 
+     ```
+        const loaderUtils=require('loader-utils')
+        let obj=loaderUtils.getOptions(this)
+        console.log('name:',obj.name)
+     ```
+  4. loader中的异常处理
+     - 直接throw抛出异常 （同步loader）
+     - this.callback(err||null,result) (同步loader)
+     - this.async(err||null,result)(异步loader)
+  5. 文件输出 this.emitFile(url,path)
+- 合成雪碧图 [spritesmith](https://www.npmjs.com/package/spritesmith?activeTab=readme)
      

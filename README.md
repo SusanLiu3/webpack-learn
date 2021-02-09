@@ -201,4 +201,9 @@
             hook1.tap('hook1', (arg1, arg2, arg3) => console.log(arg1, arg2, arg3)) //1,2,3
             //执行绑定的事件 hook1.call(1,2,3)
          ```
+- loader 
+  1. loader:就是一个导出为函数的js模块，它的执行顺序是从后往前，从右往左；
+  2. 本地开发loader，可以借助[loader-runner](https://github.com/webpack/loader-runner) 进行调试，允许在不安装webpack 的情况下执行loader
+     - loader-runner 作为webpack 的依赖，webpack 是使用它执行loader；
+     - 允许loader的开发和调试
      

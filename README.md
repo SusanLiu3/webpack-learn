@@ -239,5 +239,11 @@
      - this.callback(err||null,result) (同步loader)
      - this.async(err||null,result)(异步loader)
   5. 文件输出 this.emitFile(url,path)
+      ```
+           let url = loaderUtils.interpolateName(this, '[name].[ext]', source)
+           console.log(url,'*****')
+           this.emitFile(url, source)
+      ```
 - 合成雪碧图 [spritesmith](https://www.npmjs.com/package/spritesmith?activeTab=readme)
+- 插件编写
      

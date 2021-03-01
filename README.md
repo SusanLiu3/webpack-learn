@@ -246,4 +246,10 @@
       ```
 - 合成雪碧图 [spritesmith](https://www.npmjs.com/package/spritesmith?activeTab=readme)
 - 插件编写
+  1. 没有像loader一样的独立运行环境
+  2. 只能在webpack运行
+  3. 插件类
+     - 需要实现apply方法
+     - module.exports 导出插件类
+   
      
